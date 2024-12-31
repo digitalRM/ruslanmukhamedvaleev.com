@@ -1,9 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
-import { motion, stagger, useAnimate } from "motion/react";
+import { motion } from "motion/react";
 
-import Floating, { FloatingElement } from "@/components/ui/floating";
 import { ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
 
 const Hero = () => {
