@@ -18,10 +18,10 @@ export default function About() {
             </h1>
             <div className="space-y-6 text-lg">
               <p className="">
-                I'm Ruslan Mukhamedvaleev, a student researcher and developer
-                who focuses on the intersection of language and technology,
-                particularly in computational linguistics, digital language
-                protection, and language accessibility tools.
+                I&apos;m Ruslan Mukhamedvaleev, a student researcher and
+                developer who focuses on the intersection of language and
+                technology, particularly in computational linguistics, digital
+                language protection, and language accessibility tools.
               </p>
               <p>
                 My work spans research, technology, development, design,
@@ -33,15 +33,15 @@ export default function About() {
                 I co-founded Koel Labs, a research-driven startup building
                 dialect-sensitive language learning tools, and worked
                 extensively on projects to preserve Ukrainian language and
-                literature. I'm passionate about using tech + design to solve
-                real-world problems, especially those related to language and
-                accessibility.
+                literature. I&apos;m passionate about using tech + design to
+                solve real-world problems, especially those related to language
+                and accessibility.
               </p>
               <p>
-                When I'm not coding or researching, I curate vintage design,
-                mentor other students, build robots, or advocate for inclusive
-                education policies through my work with the Washington Youth
-                Legislative Advisory Council.
+                When I&apos;m not coding or researching, I curate vintage
+                design, mentor other students, build robots, or advocate for
+                inclusive education policies through my work with the Washington
+                Youth Legislative Advisory Council.
               </p>
             </div>
 
