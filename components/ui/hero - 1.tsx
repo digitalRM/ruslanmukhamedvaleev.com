@@ -1,6 +1,3 @@
-import { ArrowRightIcon, ArrowUpRightIcon } from "lucide-react";
-import Image from "next/image";
-
 const Hero = () => {
   return (
     <header className="flex w-full h-full relative bg-white overflow-hidden bg-cover bg-center">

@@ -1,12 +1,4 @@
-import {
-  Blocks,
-  Contact,
-  Home,
-  LayoutList,
-  List,
-  Mail,
-  SquareArrowUpRightIcon,
-} from "lucide-react";
+import { Contact, Home, Mail } from "lucide-react";
 import Link from "next/link";
 
 const Nav = () => {
