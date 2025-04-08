@@ -44,16 +44,6 @@ export default function About() {
                 Youth Legislative Advisory Council.
               </p>
             </div>
-
-            <div className="mt-8">
-              <Link
-                href="/experience"
-                className="flex items-center text-md font-medium hover:underline group"
-              >
-                View my experience
-                <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </div>
           </div>
 
           <div className="relative h-auto">
