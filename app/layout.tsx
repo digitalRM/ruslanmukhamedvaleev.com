@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
-const geist = Geist({ subsets: ["latin"] });
-const geist_mono = Geist_Mono({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.ruslanmukhamedvaleev.com"),
   title: {
