@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Nav from "./nav";
 
@@ -39,7 +40,8 @@ const Hero = () => {
           src="/clouds-st.svg"
           alt="Creative visual"
           fill
-          className="object-cover min-w-[1900px]"
+          className="object-cover min-w-[1900px] img img--hidden"
+          onLoadingComplete={(image) => image.classList.remove("img--hidden")}
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-white via-transparent to-transparent"></div>
