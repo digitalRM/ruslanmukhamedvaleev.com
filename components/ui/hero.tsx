@@ -1,8 +1,13 @@
 "use client";
 import Image from "next/image";
 import Nav from "./nav";
+import { motion } from "framer-motion";
 
 const Hero = () => {
+  const headingText =
+    "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development.";
+  const words = headingText.split(" ");
+
   return (
     <div className="flex flex-col w-full min-h-fit h-screen max-h-[1000px]">
       <Nav />
@@ -11,13 +16,31 @@ const Hero = () => {
         {/* Main heading */}
         <div className="w-full md:w-3/4 text-balance mb-6 md:mb-24 lg:mb-32">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tighter">
-            Ruslan Mukhamedvaleev is a researcher, student, and developer
-            focused on design, machine learning, and web development.
+            {words.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, filter: "blur(4px)" }}
+                animate={{ opacity: 1, filter: "blur(0px)" }}
+                transition={{
+                  duration: 0.5,
+                  delay: i * 0.05,
+                  ease: "easeInOut",
+                }}
+                className="inline-block mr-[0.25em]"
+              >
+                {word}
+              </motion.span>
+            ))}
           </h1>
         </div>
 
         {/* Two column content */}
-        <div className="flex flex-col md:flex-row md:space-x-8 mb-20">
+        <motion.div
+          className="flex flex-col md:flex-row md:space-x-8 mb-20"
+          initial={{ opacity: 0, filter: "blur(4px)" }}
+          animate={{ opacity: 1, filter: "blur(0px)" }}
+          transition={{ duration: 0.8, delay: words.length * 0.05 + 0.3 }}
+        >
           <div className="w-full md:w-1/3 mb-6 md:mb-0">
             <p className="text-sm md:text-base text-neutral-800 tracking-tight text-balance hidden sm:block">
               Design, Development, Machine Learning, Research, Language,
@@ -32,7 +55,7 @@ const Hero = () => {
               protection, or language accessibility tools.
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
       {/* Full-width image */}
       <div className="w-full h-64 md:h-[600px] relative -mt-36 z-[-1] mb-4 overflow-hidden">

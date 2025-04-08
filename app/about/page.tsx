@@ -11,8 +11,8 @@ export default function About() {
       <Nav />
 
       <main className="flex-1 px-4 md:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-8 md:gap-12 mb-16">
-          <div className="">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 md:gap-12 mb-16">
+          <div className="col-span-2">
             <h1 className="text-3xl md:text-4xl font-medium tracking-tight mb-8">
               About Me
             </h1>
