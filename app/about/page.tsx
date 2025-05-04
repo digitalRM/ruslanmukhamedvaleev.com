@@ -49,7 +49,7 @@ export default function About() {
               <div className=" relative m-4 h-[500px]">
                 <Image
                   src="/ruslanShot.png"
-                  alt="Ruslan Mukhamedvaleev"
+                  alt="A photo of Ruslan Mukhamedvaleev in San Francisco in front of the bay bridge, at Mozilla's Demo Day event for Koel Labs"
                   fill
                   className="object-cover border border-black h-full object-bottom"
                 />
