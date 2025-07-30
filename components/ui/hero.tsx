@@ -189,7 +189,7 @@ const Hero = () => {
   }, [isTetrisVisible, closeModal]);
 
   return (
-    <div className="flex flex-col w-full min-h-fit h-screen max-h-[1000px]">
+    <div className="flex flex-col w-full min-h-fit h-screen max-h-[2100px]">
       <div className="flex-1 flex flex-col px-4 md:px-8 mt-16 z-[100] relative backdrop-blur-2xl bg-white/50 max-h-[100vh] overflow-hidden">
         {/* Main heading */}
         <div className="w-full md:w-3/4 text-balance mb-6">

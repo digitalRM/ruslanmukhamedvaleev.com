@@ -147,7 +147,6 @@ const InfiniteGrid = () => {
   const dragRef = useRef({ startX: 0, startY: 0, scrollX: 0, scrollY: 0 });
   const [isMobile, setIsMobile] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const totalImages = randomizedImages.length;
   const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
   const hasMovedRef = useRef(false);
 
