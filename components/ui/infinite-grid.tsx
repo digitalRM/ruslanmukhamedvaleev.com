@@ -146,7 +146,7 @@ const InfiniteGrid = () => {
   const isDraggingRef = useRef(false);
   const dragRef = useRef({ startX: 0, startY: 0, scrollX: 0, scrollY: 0 });
   const [isMobile, setIsMobile] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const totalImages = randomizedImages.length;
   const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
   const hasMovedRef = useRef(false);
@@ -425,6 +425,11 @@ const InfiniteGrid = () => {
 
   // Mobile-specific touch handlers
   const onTouchStart = useCallback((e: TouchEvent) => {
+    // Don't handle touch events if modal is open
+    if (modalRef.current && modalRef.current.style.display === "flex") {
+      return;
+    }
+
     e.preventDefault();
     e.stopPropagation();
     if (e.touches.length === 1) {
@@ -445,6 +450,11 @@ const InfiniteGrid = () => {
 
   const onTouchEnd = useCallback(
     (e: TouchEvent) => {
+      // Don't handle touch events if modal is open
+      if (modalRef.current && modalRef.current.style.display === "flex") {
+        return;
+      }
+
       e.preventDefault();
       e.stopPropagation();
 
@@ -480,6 +490,11 @@ const InfiniteGrid = () => {
   );
 
   const onTouchMove = useCallback((e: TouchEvent) => {
+    // Don't handle touch events if modal is open
+    if (modalRef.current && modalRef.current.style.display === "flex") {
+      return;
+    }
+
     if (isDraggingRef.current && e.touches.length === 1) {
       e.preventDefault();
       e.stopPropagation();
@@ -638,7 +653,7 @@ const InfiniteGrid = () => {
       {/* Modal for zoomed images */}
       <div
         ref={modalRef}
-        className="fixed inset-0 z-50 hidden items-center justify-center"
+        className="absolute inset-0 z-[200] hidden items-center justify-center h-[110lvh]"
         style={{
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           backdropFilter: "blur(4px)",
@@ -646,7 +661,7 @@ const InfiniteGrid = () => {
         onClick={closeModal}
       >
         <div
-          className="relative max-w-[90vw] max-h-[105vh] flex items-center justify-center"
+          className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Zoomed image */}
