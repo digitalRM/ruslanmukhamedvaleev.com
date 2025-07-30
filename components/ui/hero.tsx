@@ -1,11 +1,10 @@
 "use client";
-import Image from "next/image";
-import Nav from "./nav";
 import { motion } from "framer-motion";
 import Tetris, { TetrisRef } from "./tetris";
 import { Button } from "./button";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { gsap } from "gsap";
 import captions from "../../public/portfolio/captions.json";
 
 // Generate available image numbers: 1-38 and 53-84
@@ -91,21 +90,75 @@ const getInitialWorkData = () => {
 const Hero = () => {
   const [isTetrisVisible, setIsTetrisVisible] = useState(false);
   const [workData, setWorkData] = useState(() => getInitialWorkData());
-  const [isHydrated, setIsHydrated] = useState(false);
   const tetrisRef = useRef<TetrisRef>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const headingText =
     "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development.";
   const words = headingText.split(" ");
 
-  // Generate random work data after hydration
   useEffect(() => {
-    setIsHydrated(true);
     setWorkData(generateRandomWork());
   }, []);
 
-  // Toggle Tetris visibility with T key
+  const openModal = useCallback((imageSrc: string) => {
+    if (!modalRef.current) return;
+
+    const modalImage = modalRef.current.querySelector(
+      "img"
+    ) as HTMLImageElement;
+    if (modalImage) {
+      modalImage.src = `/portfolio/${imageSrc}`;
+    }
+
+    modalRef.current.style.display = "flex";
+    document.body.style.overflow = "hidden";
+
+    // Animate in
+    gsap.fromTo(
+      modalRef.current,
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3, ease: "power2.out" }
+    );
+    gsap.fromTo(
+      modalImage,
+      { scale: 0.7 },
+      { scale: 0.9, duration: 0.4, ease: "back.out(1.7)" }
+    );
+  }, []);
+
+  const closeModal = useCallback(() => {
+    if (!modalRef.current) return;
+
+    const modalImage = modalRef.current.querySelector(
+      "img"
+    ) as HTMLImageElement;
+
+    // Animate out
+    gsap.to(modalRef.current, {
+      opacity: 0,
+      duration: 0.2,
+      ease: "power2.in",
+      onComplete: () => {
+        if (modalRef.current) {
+          modalRef.current.style.display = "none";
+          document.body.style.overflow = "auto";
+        }
+      },
+    });
+    gsap.to(modalImage, {
+      scale: 0.9,
+      duration: 0.2,
+      ease: "power2.in",
+    });
+  }, []);
+
+  // Toggle Tetris visibility with T key and handle modal close with Escape
   useEffect(() => {
     const handleToggle = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeModal();
+        return;
+      }
       if (e.key === "t" || e.key === "T") {
         e.preventDefault();
         tetrisRef.current?.resetGame();
@@ -119,11 +172,21 @@ const Hero = () => {
         e.preventDefault();
         tetrisRef.current.resetGame();
       }
+
+      if (e.key === "p" || e.key === "P") {
+        e.preventDefault();
+        window.open("https://www.ruslan.in", "_blank");
+      }
+
+      if (e.key === "w" || e.key === "W") {
+        e.preventDefault();
+        window.open("/work", "_blank");
+      }
     };
 
     window.addEventListener("keydown", handleToggle);
     return () => window.removeEventListener("keydown", handleToggle);
-  }, [isTetrisVisible]);
+  }, [isTetrisVisible, closeModal]);
 
   return (
     <div className="flex flex-col w-full min-h-fit h-screen max-h-[1000px]">
@@ -186,7 +249,7 @@ const Hero = () => {
               >
                 View Resume{" "}
                 <kbd className="rounded-lg open-runde-medium border border-neutral-200 px-1.5 py-0.5 text-xs -mr-0.5 ml-6 bg-white/40">
-                  R
+                  P
                 </kbd>
               </Button>
             </a>
@@ -255,7 +318,11 @@ const Hero = () => {
                     src={`/portfolio/${work.src}`}
                     alt={work.caption}
                     width={400}
-                    className="rounded-xl"
+                    className="rounded-xl cursor-pointer transition-transform duration-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModal(work.src);
+                    }}
                   />
                 </div>
               ))}
@@ -291,7 +358,11 @@ const Hero = () => {
                     src={`/portfolio/${work.src}`}
                     alt={work.caption}
                     width={400}
-                    className="rounded-xl"
+                    className="rounded-xl cursor-pointer transition-transform duration-300"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModal(work.src);
+                    }}
                   />
                 </div>
               ))}
@@ -328,7 +399,11 @@ const Hero = () => {
                       src={`/portfolio/${work.src}`}
                       alt={work.caption}
                       width={400}
-                      className="rounded-xl"
+                      className="rounded-xl cursor-pointer transition-transform duration-300"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openModal(work.src);
+                      }}
                     />
                   </div>
                 )
@@ -342,6 +417,30 @@ const Hero = () => {
           isVisible={isTetrisVisible}
           onVisibilityChange={setIsTetrisVisible}
         />
+      </div>
+
+      {/* Modal for zoomed images */}
+      <div
+        ref={modalRef}
+        className="fixed inset-0 z-[200] hidden items-center justify-center"
+        style={{
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          backdropFilter: "blur(4px)",
+        }}
+        onClick={closeModal}
+      >
+        <div className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center">
+          {/* Zoomed image */}
+          <img
+            alt="Portfolio item"
+            className="max-w-full max-h-full object-contain cursor-pointer"
+            style={{
+              borderRadius: "16px",
+              boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+            }}
+            onClick={closeModal}
+          />
+        </div>
       </div>
     </div>
   );

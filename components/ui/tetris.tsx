@@ -317,7 +317,7 @@ const Tetris = forwardRef<TetrisRef, TetrisProps>(
     const hardDrop = useCallback(() => {
       if (gameOver) return;
 
-      let newPiece = { ...currentPiece };
+      const newPiece = { ...currentPiece };
       while (
         isValidPosition(
           board,
@@ -485,5 +485,7 @@ const Tetris = forwardRef<TetrisRef, TetrisProps>(
     );
   }
 );
+
+Tetris.displayName = "Tetris";
 
 export default Tetris;

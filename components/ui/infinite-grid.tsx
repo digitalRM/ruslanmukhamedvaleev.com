@@ -450,7 +450,7 @@ const InfiniteGrid = () => {
       else if (!isInViewport && item.isRendered) {
         try {
           containerRef.current?.removeChild(item.el);
-        } catch (_) {
+        } catch {
           // Element might already be removed, ignore error
         }
         item.isRendered = false;
