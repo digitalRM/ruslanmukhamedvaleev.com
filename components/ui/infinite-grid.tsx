@@ -652,7 +652,7 @@ const InfiniteGrid = () => {
       {/* Modal for zoomed images */}
       <div
         ref={modalRef}
-        className="absolute inset-0 z-[200] hidden items-center justify-center h-[110lvh]"
+        className="absolute inset-0 z-[200] hidden items-center justify-center h-[110lvh] sm:h-[100lvh]"
         style={{
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           backdropFilter: "blur(4px)",
@@ -660,7 +660,7 @@ const InfiniteGrid = () => {
         onClick={closeModal}
       >
         <div
-          className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center"
+          className="relative max-w-[90vw] max-h-[80vh] flex items-center justify-center"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Zoomed image */}
