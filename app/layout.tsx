@@ -88,86 +88,89 @@ export default function RootLayout({
           {`
             {
               "@context": "https://schema.org",
-              "@type": ["Person", "ProfilePage"],
-              "@id": "https://www.ruslanmukhamedvaleev.com/#person",
-              "name": "Ruslan Mukhamedvaleev",
-              "givenName": "Ruslan",
-              "familyName": "Mukhamedvaleev",
-              "description": "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
-              "url": "https://www.ruslanmukhamedvaleev.com",
-              "image": {
-                "@type": "ImageObject",
-                "url": "https://www.ruslanmukhamedvaleev.com/openGraph.png",
-                "width": 1600,
-                "height": 900
-              },
-              "sameAs": [
-                "https://www.ruslanmukhamedvaleev.com",
-                "https://www.ruslan.in",
-                "https://github.com/digitalRM",
-                "https://www.linkedin.com/in/ruslan-muk/",
-                "https://www.instagram.com/ruslan_mk11/",
-                "https://builders.mozilla.org/profile/ruslan-mukhamedvaleev/",
-                "https://www.foym.org",
-                "https://www.behance.net/mukhamedvaleev",
-                "https://dribbble.com/RuslanMukhamedvaleev",
-                "https://x.com/mukhamedvaleev",
-                "https://scholar.google.com/citations?user=yci2oWcAAAAJ"
-              ],
-              "alumniOf": {
-                "@type": "Organization",
-                "name": "Kamiak High School",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": "Mukilteo",
-                  "addressRegion": "Washington",
-                  "addressCountry": "US"
-                }
-              },
-              "affiliation": [
-                {
-                  "@type": "Organization",
-                  "name": "Koel Labs",
-                  "url": "https://koellabs.com",
-                  "role": "Co-Founder"
+              "@type": "ProfilePage",
+              "mainEntity": {
+                "@type": "Person",
+                "@id": "https://www.ruslanmukhamedvaleev.com/#person",
+                "name": "Ruslan Mukhamedvaleev",
+                "givenName": "Ruslan",
+                "familyName": "Mukhamedvaleev",
+                "description": "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
+                "url": "https://www.ruslanmukhamedvaleev.com",
+                "image": {
+                  "@type": "ImageObject",
+                  "url": "https://www.ruslanmukhamedvaleev.com/openGraph.png",
+                  "width": 1600,
+                  "height": 900
                 },
-                {
+                "sameAs": [
+                  "https://www.ruslanmukhamedvaleev.com",
+                  "https://www.ruslan.in",
+                  "https://github.com/digitalRM",
+                  "https://www.linkedin.com/in/ruslan-muk/",
+                  "https://www.instagram.com/ruslan_mk11/",
+                  "https://builders.mozilla.org/profile/ruslan-mukhamedvaleev/",
+                  "https://www.foym.org",
+                  "https://www.behance.net/mukhamedvaleev",
+                  "https://dribbble.com/RuslanMukhamedvaleev",
+                  "https://x.com/mukhamedvaleev",
+                  "https://scholar.google.com/citations?user=yci2oWcAAAAJ"
+                ],
+                "alumniOf": {
                   "@type": "Organization",
-                  "name": "Washington State University",
-                  "url": "https://wsu.edu",
-                  "role": "Research Assistant"
+                  "name": "Kamiak High School",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Mukilteo",
+                    "addressRegion": "Washington",
+                    "addressCountry": "US"
+                  }
                 },
-                {
-                  "@type": "Organization",
-                  "name": "Mukilteo Robotics",
-                  "url": "https://www.mukilteorobotics.org",
-                  "role": "Member"
-                },
-                {
-                  "@type": "Organization",
-                  "name": "Legislative Youth Advisory Council",
-                  "url": "https://walyac.org",
-                  "role": "Member"
-                },
-                {
-                  "@type": "Organization",
-                  "name": "FOYM",
-                  "url": "https://www.foym.org",
-                  "role": "Founder"
-                }
-              ],
-              "knowsAbout": [
-                "Machine Learning",
-                "Web Development",
-                "UI/UX Design",
-                "Research",
-                "Robotics"
-              ],
-              "jobTitle": [
-                "Student Researcher",
-                "Developer",
-                "Research Assistant"
-              ]
+                "affiliation": [
+                  {
+                    "@type": "Organization",
+                    "name": "Koel Labs",
+                    "url": "https://koellabs.com",
+                    "role": "Co-Founder"
+                  },
+                  {
+                    "@type": "Organization",
+                    "name": "Washington State University",
+                    "url": "https://wsu.edu",
+                    "role": "Research Assistant"
+                  },
+                  {
+                    "@type": "Organization",
+                    "name": "Mukilteo Robotics",
+                    "url": "https://www.mukilteorobotics.org",
+                    "role": "Member"
+                  },
+                  {
+                    "@type": "Organization",
+                    "name": "Legislative Youth Advisory Council",
+                    "url": "https://walyac.org",
+                    "role": "Member"
+                  },
+                  {
+                    "@type": "Organization",
+                    "name": "FOYM",
+                    "url": "https://www.foym.org",
+                    "role": "Founder"
+                  }
+                ],
+                "knowsAbout": [
+                  "Machine Learning",
+                  "Web Development",
+                  "UI/UX Design",
+                  "Research",
+                  "Robotics"
+                ],
+                "jobTitle": [
+                  "Student Researcher",
+                  "Developer",
+                  "Research Assistant"
+                ]
+              }
             }
           `}
         </Script>
