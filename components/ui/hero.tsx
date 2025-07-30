@@ -315,7 +315,7 @@ const Hero = () => {
               {[...workData.rowOne, ...workData.rowOne].map((work, index) => (
                 <div key={`${work.src}-${index}`} className="flex-shrink-0">
                   <img
-                    src={`/portfolio/${work.src}`}
+                    src={`/600/${work.src}`}
                     alt={work.caption}
                     width={400}
                     className="rounded-xl cursor-pointer transition-transform duration-300"
@@ -355,7 +355,7 @@ const Hero = () => {
               {[...workData.rowTwo, ...workData.rowTwo].map((work, index) => (
                 <div key={`${work.src}-${index}`} className="flex-shrink-0">
                   <img
-                    src={`/portfolio/${work.src}`}
+                    src={`/600/${work.src}`}
                     alt={work.caption}
                     width={400}
                     className="rounded-xl cursor-pointer transition-transform duration-300"
@@ -396,7 +396,7 @@ const Hero = () => {
                 (work, index) => (
                   <div key={`${work.src}-${index}`} className="flex-shrink-0">
                     <img
-                      src={`/portfolio/${work.src}`}
+                      src={`/600/${work.src}`}
                       alt={work.caption}
                       width={400}
                       className="rounded-xl cursor-pointer transition-transform duration-300"

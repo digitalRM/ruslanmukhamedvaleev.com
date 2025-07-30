@@ -442,7 +442,7 @@ const InfiniteGrid = () => {
         containerRef.current?.appendChild(item.el);
         // Load image when first rendered
         if (!item.img.src) {
-          item.img.src = `/portfolio/${item.src}`;
+          item.img.src = `/600/${item.src}`;
         }
         item.isRendered = true;
       }
