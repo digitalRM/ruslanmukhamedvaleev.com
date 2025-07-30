@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import { gsap } from "gsap";
 import captions from "../../public/portfolio/captions.json";
 
@@ -145,6 +145,23 @@ const InfiniteGrid = () => {
   const tileSizeRef = useRef({ w: 0, h: 0 });
   const isDraggingRef = useRef(false);
   const dragRef = useRef({ startX: 0, startY: 0, scrollX: 0, scrollY: 0 });
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const totalImages = randomizedImages.length;
+  const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
+  const hasMovedRef = useRef(false);
+
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const openModal = useCallback((imageSrc: string) => {
     if (!modalRef.current) return;
@@ -313,16 +330,16 @@ const InfiniteGrid = () => {
 
         const itemImage = document.createElement("div");
         itemImage.classList.add("item-image");
-        itemImage.style.width = `${base.w}px`;
+        itemImage.style.width = `${base.w - 2}px`;
         itemImage.style.height = `${base.h}px`;
         itemImage.style.overflow = "hidden";
-        itemImage.style.borderRadius = "16px";
-        itemImage.style.border = "1px solid #e5e7eb";
+        itemImage.style.borderRadius = isMobile ? "8px" : "16px";
+
         wrapper.appendChild(itemImage);
 
         const img = new Image();
-        img.style.width = "100%";
-        img.style.height = "100%";
+        img.style.width = "100.1%";
+        img.style.height = "100.1%";
         img.style.objectFit = "cover";
         img.style.willChange = "transform";
         img.style.cursor = "pointer";
@@ -350,7 +367,7 @@ const InfiniteGrid = () => {
           extraX: 0,
           extraY: 0,
           rect: el.getBoundingClientRect(),
-          ease: Math.random() * 0.1 + 0.9,
+          ease: Math.random() * 0.15 + 1.2,
           isRendered: false,
           src: base.src,
         });
@@ -379,6 +396,7 @@ const InfiniteGrid = () => {
 
   const onPointerDown = useCallback((e: PointerEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     isDraggingRef.current = true;
     document.documentElement.classList.add("dragging");
     dragRef.current.startX = e.clientX;
@@ -387,15 +405,93 @@ const InfiniteGrid = () => {
     dragRef.current.scrollY = scrollRef.current.target.y;
   }, []);
 
-  const onPointerUp = useCallback(() => {
+  const onPointerUp = useCallback((e: PointerEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     isDraggingRef.current = false;
     document.documentElement.classList.remove("dragging");
   }, []);
 
   const onPointerMove = useCallback((e: PointerEvent) => {
     if (isDraggingRef.current) {
+      e.preventDefault();
+      e.stopPropagation();
       const dx = e.clientX - dragRef.current.startX;
       const dy = e.clientY - dragRef.current.startY;
+      scrollRef.current.target.x = dragRef.current.scrollX + dx;
+      scrollRef.current.target.y = dragRef.current.scrollY + dy;
+    }
+  }, []);
+
+  // Mobile-specific touch handlers
+  const onTouchStart = useCallback((e: TouchEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.touches.length === 1) {
+      touchStartRef.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+        time: Date.now(),
+      };
+      hasMovedRef.current = false;
+      isDraggingRef.current = true;
+      document.documentElement.classList.add("dragging");
+      dragRef.current.startX = e.touches[0].clientX;
+      dragRef.current.startY = e.touches[0].clientY;
+      dragRef.current.scrollX = scrollRef.current.target.x;
+      dragRef.current.scrollY = scrollRef.current.target.y;
+    }
+  }, []);
+
+  const onTouchEnd = useCallback(
+    (e: TouchEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      // Check if this was a tap (not a drag)
+      const touchDuration = Date.now() - touchStartRef.current.time;
+      const distance = Math.sqrt(
+        Math.pow(e.changedTouches[0].clientX - touchStartRef.current.x, 2) +
+          Math.pow(e.changedTouches[0].clientY - touchStartRef.current.y, 2)
+      );
+
+      // If it was a quick tap with minimal movement, it's a click
+      if (touchDuration < 300 && distance < 10 && !hasMovedRef.current) {
+        // Find the element under the touch point
+        const touch = e.changedTouches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+
+        // Look for an image element to click
+        const imgElement = element?.closest("img");
+        if (imgElement && imgElement.src) {
+          // Extract the image source from the src
+          const srcMatch = imgElement.src.match(/\/([^\/]+)$/);
+          if (srcMatch) {
+            const imageSrc = srcMatch[1];
+            openModal(imageSrc);
+          }
+        }
+      }
+
+      isDraggingRef.current = false;
+      document.documentElement.classList.remove("dragging");
+    },
+    [openModal]
+  );
+
+  const onTouchMove = useCallback((e: TouchEvent) => {
+    if (isDraggingRef.current && e.touches.length === 1) {
+      e.preventDefault();
+      e.stopPropagation();
+      const dx = e.touches[0].clientX - dragRef.current.startX;
+      const dy = e.touches[0].clientY - dragRef.current.startY;
+
+      // Check if we've moved enough to consider it a drag
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      if (distance > 10) {
+        hasMovedRef.current = true;
+      }
+
       scrollRef.current.target.x = dragRef.current.scrollX + dx;
       scrollRef.current.target.y = dragRef.current.scrollY + dy;
     }
@@ -442,7 +538,7 @@ const InfiniteGrid = () => {
         containerRef.current?.appendChild(item.el);
         // Load image when first rendered
         if (!item.img.src) {
-          item.img.src = `/600/${item.src}`;
+          item.img.src = isMobile ? `/400/${item.src}` : `/600/${item.src}`;
         }
         item.isRendered = true;
       }
@@ -466,12 +562,14 @@ const InfiniteGrid = () => {
     scroll.last.y = scroll.current.y;
 
     requestAnimationFrame(render);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     const initGrid = async () => {
       await onResize();
       requestAnimationFrame(render);
+
+      setIsLoading(false);
     };
 
     initGrid();
@@ -487,6 +585,9 @@ const InfiniteGrid = () => {
     window.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("pointerup", onPointerUp);
     window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -495,6 +596,9 @@ const InfiniteGrid = () => {
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
       window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [
@@ -503,12 +607,28 @@ const InfiniteGrid = () => {
     onPointerDown,
     onPointerUp,
     onPointerMove,
+    onTouchStart,
+    onTouchEnd,
+    onTouchMove,
     render,
     closeModal,
+    isMobile,
   ]);
 
   return (
     <div className="w-full h-full relative overflow-hidden">
+      {/* Mobile Loading Screen */}
+      {isMobile && isLoading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
+          <div className="text-center">
+            <div className="w-16 h-16 border-4 border-gray-200 border-t-black rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-black text-lg font-medium tracking-tight">
+              Loading Images...
+            </p>
+          </div>
+        </div>
+      )}
+
       <div
         ref={containerRef}
         className="w-full h-full relative shadow-lg"
@@ -525,13 +645,16 @@ const InfiniteGrid = () => {
         }}
         onClick={closeModal}
       >
-        <div className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center">
+        <div
+          className="relative max-w-[90vw] max-h-[105vh] flex items-center justify-center"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Zoomed image */}
           <img
             alt="Portfolio item"
             className="max-w-full max-h-full object-contain cursor-pointer"
             style={{
-              borderRadius: "16px",
+              borderRadius: isMobile ? "6px" : "16px",
               boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
             }}
             onClick={closeModal}
@@ -551,6 +674,19 @@ const InfiniteGrid = () => {
 
         #images {
           cursor: grab;
+        }
+
+        /* Prevent text selection during drag */
+        .dragging {
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        /* Prevent zoom on double tap for mobile */
+        * {
+          touch-action: manipulation;
         }
       `}</style>
     </div>
