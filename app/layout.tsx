@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: "%s | Ruslan Mukhamedvaleev",
   },
   description:
-    "Student researcher and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
+    "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
   keywords: [
     "Ruslan Mukhamedvaleev",
     "Koel Labs",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Ruslan Mukhamedvaleev - Student, Researcher & Developer",
     description:
-      "Student researcher and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
+      "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
     url: "https://www.ruslanmukhamedvaleev.com",
     siteName: "Ruslan Mukhamedvaleev",
     images: [
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Ruslan Mukhamedvaleev - Student, Researcher & Developer",
     description:
-      "Student researcher and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
+      "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
     images: ["/openGraph.png"],
     creator: "@mukhamedvaleev",
     site: "@mukhamedvaleev",
@@ -93,7 +93,7 @@ export default function RootLayout({
               "name": "Ruslan Mukhamedvaleev",
               "givenName": "Ruslan",
               "familyName": "Mukhamedvaleev",
-              "description": "Student researcher and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
+              "description": "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development. Co-Founder of Koel Labs, Founder of FOYM, and Research Assistant at Washington State University.",
               "url": "https://www.ruslanmukhamedvaleev.com",
               "image": {
                 "@type": "ImageObject",

@@ -140,7 +140,7 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
-                  className="w-full border border-black p-3 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full border border-black p-3 focus:outline-hidden focus:ring-2 focus:ring-black"
                   placeholder="Your name"
                 />
               </div>
@@ -156,7 +156,7 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
-                  className="w-full border border-black p-3 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full border border-black p-3 focus:outline-hidden focus:ring-2 focus:ring-black"
                   placeholder="Your email address"
                 />
               </div>
@@ -172,7 +172,7 @@ export default function Contact() {
                   type="text"
                   id="subject"
                   name="subject"
-                  className="w-full border border-black p-3 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full border border-black p-3 focus:outline-hidden focus:ring-2 focus:ring-black"
                   placeholder="What is this regarding?"
                 />
               </div>
@@ -188,7 +188,7 @@ export default function Contact() {
                   id="message"
                   name="message"
                   rows={5}
-                  className="w-full border border-black p-3 focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full border border-black p-3 focus:outline-hidden focus:ring-2 focus:ring-black"
                   placeholder="Your message"
                 />
               </div>

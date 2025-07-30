@@ -1,79 +1,80 @@
 "use client";
 import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
+import captions from "../../public/portfolio/captions.json";
 
 // All portfolio images from public/portfolio folder
 const imagesSources = [
-  { src: "1.png", caption: "Portfolio Item 1" },
-  { src: "2.png", caption: "Portfolio Item 2" },
-  { src: "3.png", caption: "Portfolio Item 3" },
-  { src: "4.png", caption: "Portfolio Item 4" },
-  { src: "5.png", caption: "Portfolio Item 5" },
-  { src: "6.png", caption: "Portfolio Item 6" },
-  { src: "7.png", caption: "Portfolio Item 7" },
-  { src: "8.png", caption: "Portfolio Item 8" },
-  { src: "9.png", caption: "Portfolio Item 9" },
-  { src: "10.png", caption: "Portfolio Item 10" },
-  { src: "11.png", caption: "Portfolio Item 11" },
-  { src: "12.png", caption: "Portfolio Item 12" },
-  { src: "13.png", caption: "Portfolio Item 13" },
-  { src: "14.png", caption: "Portfolio Item 14" },
-  { src: "15.png", caption: "Portfolio Item 15" },
-  { src: "16.png", caption: "Portfolio Item 16" },
-  { src: "17.png", caption: "Portfolio Item 17" },
-  { src: "18.png", caption: "Portfolio Item 18" },
-  { src: "19.png", caption: "Portfolio Item 19" },
-  { src: "20.png", caption: "Portfolio Item 20" },
-  { src: "21.png", caption: "Portfolio Item 21" },
-  { src: "22.png", caption: "Portfolio Item 22" },
-  { src: "23.png", caption: "Portfolio Item 23" },
-  { src: "24.png", caption: "Portfolio Item 24" },
-  { src: "25.png", caption: "Portfolio Item 25" },
-  { src: "26.png", caption: "Portfolio Item 26" },
-  { src: "27.png", caption: "Portfolio Item 27" },
-  { src: "28.png", caption: "Portfolio Item 28" },
-  { src: "29.png", caption: "Portfolio Item 29" },
-  { src: "30.png", caption: "Portfolio Item 30" },
-  { src: "31.png", caption: "Portfolio Item 31" },
-  { src: "32.png", caption: "Portfolio Item 32" },
-  { src: "33.png", caption: "Portfolio Item 33" },
-  { src: "34.png", caption: "Portfolio Item 34" },
-  { src: "35.png", caption: "Portfolio Item 35" },
-  { src: "36.png", caption: "Portfolio Item 36" },
-  { src: "37.png", caption: "Portfolio Item 37" },
-  { src: "38.png", caption: "Portfolio Item 38" },
-  { src: "53.png", caption: "Portfolio Item 53" },
-  { src: "54.png", caption: "Portfolio Item 54" },
-  { src: "55.png", caption: "Portfolio Item 55" },
-  { src: "56.png", caption: "Portfolio Item 56" },
-  { src: "57.png", caption: "Portfolio Item 57" },
-  { src: "58.png", caption: "Portfolio Item 58" },
-  { src: "59.png", caption: "Portfolio Item 59" },
-  { src: "60.png", caption: "Portfolio Item 60" },
-  { src: "61.png", caption: "Portfolio Item 61" },
-  { src: "62.png", caption: "Portfolio Item 62" },
-  { src: "63.png", caption: "Portfolio Item 63" },
-  { src: "64.png", caption: "Portfolio Item 64" },
-  { src: "65.png", caption: "Portfolio Item 65" },
-  { src: "66.png", caption: "Portfolio Item 66" },
-  { src: "67.png", caption: "Portfolio Item 67" },
-  { src: "68.png", caption: "Portfolio Item 68" },
-  { src: "69.png", caption: "Portfolio Item 69" },
-  { src: "70.png", caption: "Portfolio Item 70" },
-  { src: "71.png", caption: "Portfolio Item 71" },
-  { src: "72.png", caption: "Portfolio Item 72" },
-  { src: "73.png", caption: "Portfolio Item 73" },
-  { src: "74.png", caption: "Portfolio Item 74" },
-  { src: "75.png", caption: "Portfolio Item 75" },
-  { src: "76.png", caption: "Portfolio Item 76" },
-  { src: "77.png", caption: "Portfolio Item 77" },
-  { src: "78.png", caption: "Portfolio Item 78" },
-  { src: "79.png", caption: "Portfolio Item 79" },
-  { src: "80.png", caption: "Portfolio Item 80" },
-  { src: "81.png", caption: "Portfolio Item 81" },
-  { src: "82.png", caption: "Portfolio Item 82" },
-  { src: "83.png", caption: "Portfolio Item 83" },
-  { src: "84.png", caption: "Portfolio Item 84" },
+  { src: "1.png", caption: captions["1"] },
+  { src: "2.png", caption: captions["2"] },
+  { src: "3.png", caption: captions["3"] },
+  { src: "4.png", caption: captions["4"] },
+  { src: "5.png", caption: captions["5"] },
+  { src: "6.png", caption: captions["6"] },
+  { src: "7.png", caption: captions["7"] },
+  { src: "8.png", caption: captions["8"] },
+  { src: "9.png", caption: captions["9"] },
+  { src: "10.png", caption: captions["10"] },
+  { src: "11.png", caption: captions["11"] },
+  { src: "12.png", caption: captions["12"] },
+  { src: "13.png", caption: captions["13"] },
+  { src: "14.png", caption: captions["14"] },
+  { src: "15.png", caption: captions["15"] },
+  { src: "16.png", caption: captions["16"] },
+  { src: "17.png", caption: captions["17"] },
+  { src: "18.png", caption: captions["18"] },
+  { src: "19.png", caption: captions["19"] },
+  { src: "20.png", caption: captions["20"] },
+  { src: "21.png", caption: captions["21"] },
+  { src: "22.png", caption: captions["22"] },
+  { src: "23.png", caption: captions["23"] },
+  { src: "24.png", caption: captions["24"] },
+  { src: "25.png", caption: captions["25"] },
+  { src: "26.png", caption: captions["26"] },
+  { src: "27.png", caption: captions["27"] },
+  { src: "28.png", caption: captions["28"] },
+  { src: "29.png", caption: captions["29"] },
+  { src: "30.png", caption: captions["30"] },
+  { src: "31.png", caption: captions["31"] },
+  { src: "32.png", caption: captions["32"] },
+  { src: "33.png", caption: captions["33"] },
+  { src: "34.png", caption: captions["34"] },
+  { src: "35.png", caption: captions["35"] },
+  { src: "36.png", caption: captions["36"] },
+  { src: "37.png", caption: captions["37"] },
+  { src: "38.png", caption: captions["38"] },
+  { src: "53.png", caption: captions["53"] },
+  { src: "54.png", caption: captions["54"] },
+  { src: "55.png", caption: captions["55"] },
+  { src: "56.png", caption: captions["56"] },
+  { src: "57.png", caption: captions["57"] },
+  { src: "58.png", caption: captions["58"] },
+  { src: "59.png", caption: captions["59"] },
+  { src: "60.png", caption: captions["60"] },
+  { src: "61.png", caption: captions["61"] },
+  { src: "62.png", caption: captions["62"] },
+  { src: "63.png", caption: captions["63"] },
+  { src: "64.png", caption: captions["64"] },
+  { src: "65.png", caption: captions["65"] },
+  { src: "66.png", caption: captions["66"] },
+  { src: "67.png", caption: captions["67"] },
+  { src: "68.png", caption: captions["68"] },
+  { src: "69.png", caption: captions["69"] },
+  { src: "70.png", caption: captions["70"] },
+  { src: "71.png", caption: captions["71"] },
+  { src: "72.png", caption: captions["72"] },
+  { src: "73.png", caption: captions["73"] },
+  { src: "74.png", caption: captions["74"] },
+  { src: "75.png", caption: captions["75"] },
+  { src: "76.png", caption: captions["76"] },
+  { src: "77.png", caption: captions["77"] },
+  { src: "78.png", caption: captions["78"] },
+  { src: "79.png", caption: captions["79"] },
+  { src: "80.png", caption: captions["80"] },
+  { src: "81.png", caption: captions["81"] },
+  { src: "82.png", caption: captions["82"] },
+  { src: "83.png", caption: captions["83"] },
+  { src: "84.png", caption: captions["84"] },
 ];
 
 const randomizedImages = imagesSources.sort(() => Math.random() - 0.5);
@@ -94,6 +95,18 @@ const loadImageDimensions = (
     img.src = `/portfolio/${src}`;
   });
 };
+
+// Base item interface for layout calculation
+interface BaseItem {
+  src: string;
+  caption: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  originalW: number;
+  originalH: number;
+}
 
 interface GridItem {
   el: HTMLDivElement;
@@ -206,7 +219,7 @@ const InfiniteGrid = () => {
     );
 
     // Generate tiles based on actual image dimensions
-    const baseItems: any[] = [];
+    const baseItems: BaseItem[] = [];
     const maxSize = Math.min(winW, winH) * 0.4; // Max size relative to viewport
     const minSize = 200; // Minimum size
 
@@ -355,7 +368,7 @@ const InfiniteGrid = () => {
       scrollRef.current.target.y =
       scrollRef.current.last.y =
         -(tileSizeRef.current.h - winH) / 2;
-  }, []);
+  }, [openModal]);
 
   const onWheel = useCallback((e: WheelEvent) => {
     e.preventDefault();
@@ -437,7 +450,7 @@ const InfiniteGrid = () => {
       else if (!isInViewport && item.isRendered) {
         try {
           containerRef.current?.removeChild(item.el);
-        } catch (e) {
+        } catch (_) {
           // Element might already be removed, ignore error
         }
         item.isRendered = false;
@@ -501,8 +514,6 @@ const InfiniteGrid = () => {
         className="w-full h-full relative shadow-lg"
         style={{ willChange: "transform" }}
       />
-
-      <div className="absolute inset-0 bg-radial from-transparent to-black opacity-50 pointer-events-none" />
 
       {/* Modal for zoomed images */}
       <div
