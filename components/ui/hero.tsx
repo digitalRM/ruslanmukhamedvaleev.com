@@ -107,6 +107,7 @@ const Hero = () => {
       "img"
     ) as HTMLImageElement;
     if (modalImage) {
+      // Load the high-res image directly
       modalImage.src = `/portfolio/${imageSrc}`;
     }
 
