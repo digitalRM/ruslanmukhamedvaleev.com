@@ -1,18 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import Image from "next/image";
 
 export default function About() {
   const headingText = "I'm Ruslan Mukhamedvaleev, it's nice to meet you!";
   const words = headingText.split(" ");
-
-  const fadeInUp = {
-    initial: { opacity: 0, filter: "blur(4px)", translateY: 15 },
-    animate: { opacity: 1, filter: "blur(0px)", translateY: 0 },
-  };
 
   const containerVariants = {
     initial: { opacity: 0 },
