@@ -3,7 +3,6 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { gsap } from "gsap";
 import captions from "../../public/portfolio/captions.json";
 
-// All portfolio images from public/portfolio folder
 const imagesSources = [
   { src: "1.png", caption: captions["1"] },
   { src: "2.png", caption: captions["2"] },
@@ -79,7 +78,6 @@ const imagesSources = [
 
 const randomizedImages = imagesSources.sort(() => Math.random() - 0.5);
 
-// Function to load image and get its dimensions
 const loadImageDimensions = (
   src: string
 ): Promise<{ width: number; height: number }> => {
@@ -89,14 +87,12 @@ const loadImageDimensions = (
       resolve({ width: img.naturalWidth, height: img.naturalHeight });
     };
     img.onerror = () => {
-      // Fallback dimensions if image fails to load
       resolve({ width: 400, height: 300 });
     };
     img.src = `/portfolio/${src}`;
   });
 };
 
-// Base item interface for layout calculation
 interface BaseItem {
   src: string;
   caption: string;
@@ -150,7 +146,6 @@ const InfiniteGrid = () => {
   const touchStartRef = useRef({ x: 0, y: 0, time: 0 });
   const hasMovedRef = useRef(false);
 
-  // Check if device is mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -175,7 +170,6 @@ const InfiniteGrid = () => {
     modalRef.current.style.display = "flex";
     document.body.style.overflow = "hidden";
 
-    // Animate in
     gsap.fromTo(
       modalRef.current,
       { opacity: 0 },
@@ -195,7 +189,6 @@ const InfiniteGrid = () => {
       "img"
     ) as HTMLImageElement;
 
-    // Animate out
     gsap.to(modalRef.current, {
       opacity: 0,
       duration: 0.2,
@@ -221,23 +214,19 @@ const InfiniteGrid = () => {
     const winH = window.innerHeight;
     const gap = 20;
 
-    // Reset scroll state
     scrollRef.current.current = { x: 0, y: 0 };
     scrollRef.current.target = { x: 0, y: 0 };
     scrollRef.current.last = { x: 0, y: 0 };
 
-    // Clear existing tiles
     containerRef.current.innerHTML = "";
 
-    // Load all image dimensions
     const imageDimensions = await Promise.all(
       randomizedImages.map((source) => loadImageDimensions(source.src))
     );
 
-    // Generate tiles based on actual image dimensions
     const baseItems: BaseItem[] = [];
-    const maxSize = Math.min(winW, winH) * 0.4; // Max size relative to viewport
-    const minSize = 200; // Minimum size
+    const maxSize = Math.min(winW, winH) * 0.4;
+    const minSize = 200;
 
     let currentX = 0;
     let currentY = 0;
@@ -246,19 +235,16 @@ const InfiniteGrid = () => {
     randomizedImages.forEach((source, index) => {
       const dimensions = imageDimensions[index];
 
-      // Scale image to fit within reasonable bounds while maintaining aspect ratio
       const aspectRatio = dimensions.width / dimensions.height;
       let scaledWidth, scaledHeight;
 
       if (dimensions.width > dimensions.height) {
-        // Landscape orientation
         scaledWidth = Math.max(
           minSize,
           Math.min(maxSize, dimensions.width * 0.3)
         );
         scaledHeight = scaledWidth / aspectRatio;
       } else {
-        // Portrait or square orientation
         scaledHeight = Math.max(
           minSize,
           Math.min(maxSize, dimensions.height * 0.3)
@@ -266,9 +252,7 @@ const InfiniteGrid = () => {
         scaledWidth = scaledHeight * aspectRatio;
       }
 
-      // Check if we need to wrap to next row
       if (currentX + scaledWidth > winW * 1.2) {
-        // Allow some overflow for wrapping
         currentX = 0;
         currentY += rowHeight + gap;
         rowHeight = 0;
@@ -289,7 +273,6 @@ const InfiniteGrid = () => {
       rowHeight = Math.max(rowHeight, scaledHeight);
     });
 
-    // Calculate total grid dimensions based on actual layout
     const maxX = Math.max(...baseItems.map((item) => item.x + item.w));
     const maxY = Math.max(...baseItems.map((item) => item.y + item.h));
 
@@ -300,7 +283,6 @@ const InfiniteGrid = () => {
 
     itemsRef.current = [];
 
-    // Create 3x3 tiling for better infinite scroll coverage
     const reps = [
       { x: -tileSizeRef.current.w, y: -tileSizeRef.current.h },
       { x: 0, y: -tileSizeRef.current.h },
@@ -315,7 +297,6 @@ const InfiniteGrid = () => {
 
     baseItems.forEach((base) => {
       reps.forEach((offset) => {
-        // Create item DOM structure
         const el = document.createElement("div");
         el.classList.add("item");
         el.style.position = "absolute";
@@ -343,7 +324,6 @@ const InfiniteGrid = () => {
         img.style.willChange = "transform";
         img.style.cursor = "pointer";
 
-        // Add click handler for zoom
         img.addEventListener("click", (e) => {
           e.stopPropagation();
           openModal(base.src);
@@ -351,9 +331,6 @@ const InfiniteGrid = () => {
 
         itemImage.appendChild(img);
 
-        // Don't append to DOM immediately - will be added when in viewport
-
-        // Store item metadata
         itemsRef.current.push({
           el,
           container: itemImage,
@@ -373,9 +350,6 @@ const InfiniteGrid = () => {
       });
     });
 
-    // No need to multiply since we're using absolute positioning
-
-    // Set initial scroll position to center the grid better
     scrollRef.current.current.x =
       scrollRef.current.target.x =
       scrollRef.current.last.x =
@@ -422,9 +396,7 @@ const InfiniteGrid = () => {
     }
   }, []);
 
-  // Mobile-specific touch handlers
   const onTouchStart = useCallback((e: TouchEvent) => {
-    // Don't handle touch events if modal is open
     if (modalRef.current && modalRef.current.style.display === "flex") {
       return;
     }
@@ -449,7 +421,6 @@ const InfiniteGrid = () => {
 
   const onTouchEnd = useCallback(
     (e: TouchEvent) => {
-      // Don't handle touch events if modal is open
       if (modalRef.current && modalRef.current.style.display === "flex") {
         return;
       }
@@ -457,23 +428,18 @@ const InfiniteGrid = () => {
       e.preventDefault();
       e.stopPropagation();
 
-      // Check if this was a tap (not a drag)
       const touchDuration = Date.now() - touchStartRef.current.time;
       const distance = Math.sqrt(
         Math.pow(e.changedTouches[0].clientX - touchStartRef.current.x, 2) +
           Math.pow(e.changedTouches[0].clientY - touchStartRef.current.y, 2)
       );
 
-      // If it was a quick tap with minimal movement, it's a click
       if (touchDuration < 300 && distance < 10 && !hasMovedRef.current) {
-        // Find the element under the touch point
         const touch = e.changedTouches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
 
-        // Look for an image element to click
         const imgElement = element?.closest("img");
         if (imgElement && imgElement.src) {
-          // Extract the image source from the src
           const srcMatch = imgElement.src.match(/\/([^\/]+)$/);
           if (srcMatch) {
             const imageSrc = srcMatch[1];
@@ -489,7 +455,6 @@ const InfiniteGrid = () => {
   );
 
   const onTouchMove = useCallback((e: TouchEvent) => {
-    // Don't handle touch events if modal is open
     if (modalRef.current && modalRef.current.style.display === "flex") {
       return;
     }
@@ -500,7 +465,6 @@ const InfiniteGrid = () => {
       const dx = e.touches[0].clientX - dragRef.current.startX;
       const dy = e.touches[0].clientY - dragRef.current.startY;
 
-      // Check if we've moved enough to consider it a drag
       const distance = Math.sqrt(dx * dx + dy * dy);
       if (distance > 10) {
         hasMovedRef.current = true;
@@ -517,56 +481,44 @@ const InfiniteGrid = () => {
     const winW = window.innerWidth;
     const winH = window.innerHeight;
 
-    // Smooth current → target
     scroll.current.x += (scroll.target.x - scroll.current.x) * scroll.ease;
     scroll.current.y += (scroll.target.y - scroll.current.y) * scroll.ease;
 
-    // Calculate delta for parallax
     const dx = scroll.current.x - scroll.last.x;
     const dy = scroll.current.y - scroll.last.y;
 
-    // Update each tile
     itemsRef.current.forEach((item) => {
       const parX = 5 * dx * item.ease;
       const parY = 5 * dy * item.ease;
 
-      // Infinite wrapping - wrap tiles when they go off screen
       const posX = item.x + scroll.current.x + item.extraX + parX;
-      if (posX > winW + 200) item.extraX -= tileSize.w * 3; // 3x3 grid
+      if (posX > winW + 200) item.extraX -= tileSize.w * 3;
       if (posX + item.w < -200) item.extraX += tileSize.w * 3;
 
       const posY = item.y + scroll.current.y + item.extraY + parY;
-      if (posY > winH + 200) item.extraY -= tileSize.h * 3; // 3x3 grid
+      if (posY > winH + 200) item.extraY -= tileSize.h * 3;
       if (posY + item.h < -200) item.extraY += tileSize.h * 3;
 
-      // Check if item should be visible (with buffer)
-      const buffer = 200; // Buffer distance around viewport
+      const buffer = 200;
       const isInViewport =
         posX > -buffer - item.w &&
         posX < winW + buffer &&
         posY > -buffer - item.h &&
         posY < winH + buffer;
 
-      // Add to DOM if in viewport and not rendered
       if (isInViewport && !item.isRendered) {
         containerRef.current?.appendChild(item.el);
-        // Load image when first rendered
         if (!item.img.src) {
           item.img.src = isMobile ? `/400/${item.src}` : `/600/${item.src}`;
         }
         item.isRendered = true;
-      }
-      // Remove from DOM if out of viewport and rendered
-      else if (!isInViewport && item.isRendered) {
+      } else if (!isInViewport && item.isRendered) {
         try {
           containerRef.current?.removeChild(item.el);
-        } catch {
-          // Element might already be removed, ignore error
-        }
+        } catch {}
         item.isRendered = false;
       }
 
-      // Only update transform for rendered items
       if (item.isRendered) {
         item.el.style.transform = `translate(${posX}px, ${posY}px)`;
       }
@@ -631,7 +583,6 @@ const InfiniteGrid = () => {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      {/* Mobile Loading Screen */}
       {isMobile && isLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white">
           <div className="text-center">
@@ -649,7 +600,6 @@ const InfiniteGrid = () => {
         style={{ willChange: "transform" }}
       />
 
-      {/* Modal for zoomed images */}
       <div
         ref={modalRef}
         className="absolute inset-0 z-[200] hidden items-center justify-center h-[110lvh] sm:h-[100lvh]"
@@ -663,7 +613,6 @@ const InfiniteGrid = () => {
           className="relative max-w-[90vw] max-h-[80vh] flex items-center justify-center"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Zoomed image */}
           <img
             alt="Portfolio item"
             className="max-w-full max-h-full object-contain cursor-pointer"
@@ -676,7 +625,6 @@ const InfiniteGrid = () => {
         </div>
       </div>
 
-      {/* CSS for dragging cursor */}
       <style jsx global>{`
         .dragging {
           cursor: grabbing !important;
@@ -690,7 +638,6 @@ const InfiniteGrid = () => {
           cursor: grab;
         }
 
-        /* Prevent text selection during drag */
         .dragging {
           -webkit-user-select: none;
           -moz-user-select: none;
@@ -698,7 +645,6 @@ const InfiniteGrid = () => {
           user-select: none;
         }
 
-        /* Prevent zoom on double tap for mobile */
         * {
           touch-action: manipulation;
         }

@@ -7,31 +7,25 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import captions from "../../public/portfolio/captions.json";
 
-// Generate available image numbers: 1-38 and 53-84
 const availableNumbers = [
   ...Array.from({ length: 38 }, (_, i) => i + 1), // 1-38
   ...Array.from({ length: 32 }, (_, i) => i + 53), // 53-84
 ];
 
 function generateRandomWork() {
-  // Always include 7 and 8
+  // always include 7 and 8 ("ruslan mukhamedvaleev" in clouds & iamge of me at UW )
   const requiredNumbers = [7, 8];
 
-  // Get remaining available numbers (excluding 7 and 8)
   const remainingNumbers = availableNumbers.filter(
     (num) => !requiredNumbers.includes(num)
   );
 
-  // Shuffle remaining numbers
   const shuffled = remainingNumbers.sort(() => Math.random() - 0.5);
 
-  // Take 25 more numbers (27 total - 2 required = 25)
   const selectedNumbers = [...requiredNumbers, ...shuffled.slice(0, 25)];
 
-  // Shuffle all selected numbers
   const finalSelection = selectedNumbers.sort(() => Math.random() - 0.5);
 
-  // Split into 3 rows of 9 each
   const rowOne = finalSelection.slice(0, 9).map((num) => ({
     src: `${num}.png`,
     caption:
@@ -56,7 +50,6 @@ function generateRandomWork() {
   return { rowOne, rowTwo, rowThree };
 }
 
-// Static initial data for SSR (will be replaced after hydration)
 const getInitialWorkData = () => {
   const staticSelection = [
     7, 8, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
@@ -93,7 +86,7 @@ const Hero = () => {
   const tetrisRef = useRef<TetrisRef>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const headingText =
-    "Ruslan Mukhamedvaleev is a researcher, student, and developer focused on design, machine learning, and web development.";
+    "Ruslan Mukhamedvaleev is a designer, student, and developer focused on research, machine learning, and web development.";
   const words = headingText.split(" ");
 
   useEffect(() => {
@@ -107,14 +100,12 @@ const Hero = () => {
       "img"
     ) as HTMLImageElement;
     if (modalImage) {
-      // Load the high-res image directly
       modalImage.src = `/portfolio/${imageSrc}`;
     }
 
     modalRef.current.style.display = "flex";
     document.body.style.overflow = "hidden";
 
-    // Animate in
     gsap.fromTo(
       modalRef.current,
       { opacity: 0 },
@@ -134,7 +125,6 @@ const Hero = () => {
       "img"
     ) as HTMLImageElement;
 
-    // Animate out
     gsap.to(modalRef.current, {
       opacity: 0,
       duration: 0.2,
@@ -153,7 +143,6 @@ const Hero = () => {
     });
   }, []);
 
-  // Toggle Tetris visibility with T key and handle modal close with Escape
   useEffect(() => {
     const handleToggle = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -192,7 +181,6 @@ const Hero = () => {
   return (
     <div className="flex flex-col w-full min-h-fit h-screen max-h-[2100px]">
       <div className="flex-1 flex flex-col px-4 md:px-8 mt-16 z-[100] relative backdrop-blur-2xl bg-white/50 max-h-[100vh] overflow-hidden">
-        {/* Main heading */}
         <div className="w-full md:w-3/4 text-balance mb-6">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium tracking-tighter open-runde-medium z-[100] relative">
             {words.map((word, i) => (
@@ -290,7 +278,6 @@ const Hero = () => {
             ease: "easeInOut",
           }}
         >
-          {/* Row 1 */}
           <div className="relative w-full h-[242px] overflow-visible">
             <motion.div
               className="flex gap-2 absolute"
@@ -330,7 +317,6 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Row 2 */}
           <div className="relative w-full h-[242px] overflow-visible">
             <motion.div
               className="flex gap-2 absolute"
@@ -370,7 +356,6 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* Row 3 */}
           <div className="relative w-full h-[242px] overflow-visible">
             <motion.div
               className="flex gap-2 absolute"
@@ -420,7 +405,6 @@ const Hero = () => {
         />
       </div>
 
-      {/* Modal for zoomed images */}
       <div
         ref={modalRef}
         className="fixed inset-0 z-[200] hidden items-center justify-center"
@@ -431,7 +415,6 @@ const Hero = () => {
         onClick={closeModal}
       >
         <div className="relative max-w-[90vw] max-h-[90vh] flex items-center justify-center">
-          {/* Zoomed image */}
           <img
             alt="Portfolio item"
             className="max-w-full max-h-full object-contain cursor-pointer"
