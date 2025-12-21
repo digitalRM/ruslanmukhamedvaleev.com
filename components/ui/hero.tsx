@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import Tetris, { TetrisRef } from "./tetris";
 import { Button } from "./button";
-import Link from "next/link";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import captions from "../../public/portfolio/captions.json";
