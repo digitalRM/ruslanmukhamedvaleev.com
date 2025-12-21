@@ -210,27 +210,6 @@ const Hero = () => {
               ease: "circInOut",
             }}
           >
-            <Link href="/work">
-              <Button
-                variant="outline"
-                className="text-sm shadow-none tracking-tight rounded-[14px] px-2.5 cursor-pointer w-full sm:w-auto flex justify-between backdrop-blur-lg bg-white/40"
-              >
-                Explore Work{" "}
-                <kbd className="rounded-lg open-runde-medium border border-neutral-200 px-1 py-0.5 text-xs -mr-0.5 ml-7 bg-white/40">
-                  W
-                </kbd>
-              </Button>
-            </Link>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, filter: "blur(4px)", translateY: 15 }}
-            animate={{ opacity: 1, filter: "blur(0px)", translateY: 0 }}
-            transition={{
-              duration: 0.5,
-              delay: words.length * 0.04 + 0.35,
-              ease: "circInOut",
-            }}
-          >
             <a href="https://www.ruslan.in" target="_blank">
               <Button
                 variant="outline"
@@ -243,6 +222,7 @@ const Hero = () => {
               </Button>
             </a>
           </motion.div>
+
           <motion.div
             initial={{ opacity: 0, filter: "blur(4px)", translateY: 15 }}
             animate={{ opacity: 1, filter: "blur(0px)", translateY: 0 }}
