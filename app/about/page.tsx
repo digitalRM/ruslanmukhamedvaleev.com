@@ -109,7 +109,7 @@ export default function About() {
 
             <motion.div className="relative h-auto" variants={itemVariants}>
               <div className="backdrop-blur-lg bg-white/40 rounded-lg border border-white/20 overflow-hidden">
-                <div className="relative h-[500px] lg:h-[900px] rounded-lg">
+                <div className="relative h-[900px] lg:h-[1200px] rounded-lg">
                   <Image
                     src="/ruslanShot.png"
                     alt="A photo of Ruslan Mukhamedvaleev in San Francisco in front of the bay bridge, at Mozilla's Demo Day event for Koel Labs"
